@@ -16,7 +16,7 @@ class BookmarkForm(forms.Form):
         self.fields['tag'].widget.attrs['placeholder'] = '태그는 쉼표로 구분'
 
     def clean_tag(self):
-        tags = self.cleaned_data.get("tag")
+        tags = self.cleaned_data["tag"]
 
         if len(tags.split(",")) < 2:
             raise forms.ValidationError( "2개 이상 태그 & 쉼표로 구분.", code="tag" )
