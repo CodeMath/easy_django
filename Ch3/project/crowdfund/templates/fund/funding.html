@@ -1,0 +1,71 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="card mb-3 shadow-sm">
+            {% if msg %}
+                <p>{{ msg }}</p>
+            {% endif %}
+            <div class="card-body">
+                <div class="col-md-12 text-center">
+                    <img src="{{ funding.main_img.url }}" alt="">
+                    <h2>{{ funding.title }}</h2>
+                </div>
+                <div class="col-md-12">
+                    {{ funding.content|safe }}
+                </div>
+                <div class="col-md-12">
+                    <p>목표금액: {{ funding.now_funding }}/{{ funding.funding_goal }} 원</p>
+                    <p>펀딩기간: {{ funding.to_finish }}</p>
+                    <hr>
+                    {% for each in news %}
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <h4 class="card-text">{{ each.title }}</h4>
+                                <p>{{ each.content }}</p>
+                                <hr>
+                                <span>{{ each.created }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <h4>리워드 내역</h4>
+                    <table class="table">
+                        {% for each in funding.reward.all %}
+                            <tr>
+                                <td>{{ each.subject }}</td>
+                                <td>가격&수량: {{ each.price }} 원 |
+                                    {% if each.number < 0 %}
+                                        무제한
+                                    {% else %}
+                                        {{ each.number }} 개
+                                    {% endif %}
+                                </td>
+                                <td>내용: {{ each.content }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <h4>펀딩 참여하기</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        <select name="reward">
+                            {% for each in funding.reward.all %}
+                                <option value="{{ each.id }}">
+                                    {{ each.subject }} - {{ each.price }} 원 | 남은 수량:
+                                    {% if each.number < 0 %}
+                                        무제한
+                                    {% else %}
+                                        {{ each.number }} 개
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" class="btn" value="참여하기">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

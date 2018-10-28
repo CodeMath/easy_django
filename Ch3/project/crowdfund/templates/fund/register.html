@@ -1,0 +1,22 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div class="row">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="offset-2 col-md-10">
+                {{ forms.as_p }}
+                <hr>
+                {{ r_forms.as_p }}
+                <span>무제한인 경우 -1 로 표시.</span>
+                <hr>
+                <input type="submit" class="btn" value="등록">
+            </div>
+        </form>
+
+    </div>
+{% endblock %}
+
+

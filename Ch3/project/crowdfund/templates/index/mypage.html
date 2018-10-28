@@ -1,0 +1,61 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    {% if my_funding %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3>진행중인 펀딩</h3>
+        </div>
+        {% for each in my_funding %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="{{ each.main_img.url }}" data-holder-rendered="true" style="height: 225px; width: 100%; display: block;">
+                    <div class="card-body">
+                        <p class="card-text">{{ each.title }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'view_funding' id=each.id %}">보기</a>
+                                {% if user == each.writer %}
+                                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'add_reward' id=each.id %}">리워드 추가</a>
+                                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'funding_news' id=each.id %}">뉴스 업데이트</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <hr>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3>참여중인 펀딩</h3>
+        </div>
+        {% for each in fundings %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="{{ each.is_funding.main_img.url }}" style="height: 225px; width: 100%; display: block;">
+                    <div class="card-body">
+                        <p class="card-text">{{ each.is_funding.title }}</p>
+                        <p class="card-text">참여 일자: {{ each.created }} </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                {% if each.is_funding.finish %}
+                                    <p class="text-danger">펀딩 종료</p>
+                                {% endif %}
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'view_funding' id=each.is_funding.id %}">보기</a>
+                            </div>
+                        </div>
+                        <p class="card-text">참여 내역: {{ each.reward.subject }} | {{ each.reward.price }} 원</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
+
+

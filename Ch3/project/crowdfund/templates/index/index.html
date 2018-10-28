@@ -1,0 +1,28 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+
+        {% for each in funding %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="{{ each.main_img.url }}" style="height: 225px; width: 100%; display: block;">
+                    <div class="card-body">
+                        <p class="card-text">{{ each.title }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'view_funding' id=each.id %}">보기</a>
+                            </div>
+                            <small class="text-muted">목표금액: {{ each.funding_goal }} 원</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
+{% endblock %}
+
+
