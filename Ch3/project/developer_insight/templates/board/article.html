@@ -1,0 +1,59 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="media pt-3">
+            <h4 class="pd-2 mb-0">{{ object.title }}</h4>
+        </div>
+        <div class="media text-muted pt-2 border-bottom border-gray">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;">
+            <p class="media-body small pb-3 mb-0 lh-125">
+                <strong class="d-block text-gray-dark">@{{ object.user.first_name }}</strong>
+                <strong class="d-block text-gray-dark">IP: {{ object.ip }} / {{ object.created }}</strong>
+            </p>
+            <a href="{% url 'SendMessage' %}?u={{ object.user.first_name }}">쪽지 보내기</a>
+        </div>
+        <div class="text-gray-dark">
+            {{ object.content|safe }}
+        </div>
+        <div class="pt-2 border-top border-gray text-center">
+            <a href="{% url 'article_vote' id=object.id vote_type='up' %}" class="mr-3">Like <span class="badge badge-dark">{{ object.up_vote }}</span></a>
+            <a href="{% url 'article_vote' id=object.id vote_type='down' %}" class="mr-0">Dislike <span class="badge badge-dark">{{ object.down_vote }}</span></a>
+        </div>
+        {% if user == object.user %}
+            <div class="pt-2 text-center">
+                <a href="{% url 'Update_Article_View' object.id %}">수정하기</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="bg-white rounded shadow-sm">
+        <form method="post" action="{% url 'reply' object.id %}">
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">댓글작성</span>
+                </div>
+                {% csrf_token %}
+                <textarea name="comment" class="form-control"></textarea>
+                <input type="submit" value="등록" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        {% for each in replys %}
+        <div class="media text-muted pt-3 border-bottom border-gray ">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=6f42c1&amp;fg=6f42c1&amp;size=1" alt="32x32" class="mr-2 rounded"style="width: 32px; height: 32px;">
+            <div class="media-body ">
+                <p class="pb-3 mb-0 small lh-125">
+                    <strong class="d-block text-gray-dark">@{{ each.user.first_name }}</strong> <span>{{ each.created_at }}</span>
+                </p>
+                <p>{{ each.content|safe }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

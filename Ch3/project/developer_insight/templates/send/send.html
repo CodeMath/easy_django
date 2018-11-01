@@ -1,0 +1,38 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Username" name="username" aria-label="Username" value="{{ u }}">
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">쪽지 보내기</span>
+                </div>
+                <textarea name="comment" class="form-control"></textarea>
+                <input type="submit" value="전송" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+    {% if message %}
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            {% for each in message %}
+                <div class="media text-muted pt-3 border-bottom border-gray ">
+                    <img data-src="holder.js/32x32?theme=thumb&amp;bg=6f42c1&amp;fg=6f42c1&amp;size=1" alt="32x32" class="mr-2 rounded"style="width: 32px; height: 32px;">
+                    <div class="media-body ">
+                        <p class="pb-3 mb-0 small lh-125">
+                            <strong class="d-block text-gray-dark">FROM: @{{ each.sender.first_name }}</strong> <span>{{ each.created }}</span>
+                        </p>
+                        <p>{{ each.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div style="width:100%;max-width: 330px;margin: 0 auto;">
+            <ul class="nav nav-tabs mb-3 text-center" id="tabs-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="tabs-SignIn-tab" data-toggle="pill" href="#tabs-SignIn" role="tab" aria-controls="tabs-SignIn" aria-selected="true">SignIn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-signup-tab" data-toggle="pill" href="#tabs-signup" role="tab" aria-controls="tabs-signup" aria-selected="false">SignUp</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="tabs-tabContent">
+                {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                          {{ msg }}
+                    </div>
+                {% endif %}
+                <div class="tab-pane fade show active" id="tabs-SignIn" role="tabpanel" aria-labelledby="tabs-SignIn-tab">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="type" value="signin">
+                        <input type="email" id="signin-inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" name="username">
+                        <input type="password" id="signin-inputPassword" class="form-control" placeholder="Password" required="" name="password">
+                        <input type="submit" value="로그인" class="btn btn-primary">
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="tabs-signup" role="tabpanel" aria-labelledby="tabs-signup-tab">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="type" value="signup">
+                        {{ signupform.username }}
+                        {{ signupform.first_name }}
+                        {{ signupform.password1 }}
+                        {{ signupform.password2 }}
+                        <input type="submit" value="회원가입" class="btn btn-primary">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
