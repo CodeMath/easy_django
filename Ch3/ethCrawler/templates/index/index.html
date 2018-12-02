@@ -1,0 +1,42 @@
+{% extends 'layout/layout.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+<div class="jumbotron">
+        <div class="container">
+            <h1>Crawler</h1>
+            <p class="lead">암호화폐 후오비거래소 데이터</p>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="?s=이더리움">이더리움</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th>시간</th>
+                <th>암호화폐</th>
+                <th>Asks</th>
+                <th>Vol</th>
+                <th>Bids</th>
+                <th>Vol</th>
+            </tr>
+            {% for each in data %}
+                <tr>
+                    <td>{{ each.date }}</td>
+                    <td>{{ each.name }}</td>
+                    <td>{{ each.asks }}</td>
+                    <td>{{ each.asks_vol }}</td>
+                    <td>{{ each.bids }}</td>
+                    <td>{{ each.bids_vol }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
