@@ -4,6 +4,6 @@
 
 * * *
 
-Ch3 폴더에서 예제와 프로젝트를 찾으실 수 있습니다.
+only to Python2.X and django 1.X version
 
 * 수정일 - 18.11.01
